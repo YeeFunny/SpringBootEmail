@@ -13,27 +13,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.java.dto.Email;
-import com.java.dto.EmailNew;
 import com.java.dto.Result;
-import com.java.service.EmailService;
 import com.java.service.EmailServiceV2;
 
 @RestController
-public class EmailController {
-
-	@Autowired
-	EmailService service;
-	@Autowired
-	EmailServiceV2 serviceV2;
+public class EmailControllerV2 {
 	
-	@PostMapping(path = "/sendEmail", produces = { MediaType.APPLICATION_JSON_VALUE,
+	@Autowired
+	EmailServiceV2 service;
+	
+	@PostMapping(path = "/sendFromGmail", produces = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<Result> sendEmail(@RequestBody Email email) {
+	public ResponseEntity<Result> sendFromGmail(@RequestBody Email email) {
 		Result result = null;
 		HttpStatus status = null;
 		try {
-			service.sendEmail(email);
+			service.sendFromGmail(email);
 			result = Result.builder().resultCode(2000)
 					.description("Send email successfully.").success(true).build();
 			status = HttpStatus.OK;
@@ -57,14 +53,14 @@ public class EmailController {
 		return new ResponseEntity<Result>(result, status);
 	}
 	
-	@PostMapping(path = "/sendRoutingEmail", produces = { MediaType.APPLICATION_JSON_VALUE,
+	@PostMapping(path = "/sendFromOutlook", produces = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<Result> sendRoutingEmail(@RequestBody EmailNew email) {
+	public ResponseEntity<Result> sendFromOutlook(@RequestBody Email email) {
 		Result result = null;
 		HttpStatus status = null;
 		try {
-			service.sendRoutingEmail(email);
+			service.sendFromOutlook(email);
 			result = Result.builder().resultCode(2000)
 					.description("Send email successfully.").success(true).build();
 			status = HttpStatus.OK;

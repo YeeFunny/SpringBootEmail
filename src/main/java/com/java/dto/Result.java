@@ -15,6 +15,4 @@ public class Result {
 	private String description;
 	private String exceptionMsg;
 	private boolean success;
-	
-	
 }

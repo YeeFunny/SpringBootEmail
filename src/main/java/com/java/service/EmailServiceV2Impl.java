@@ -6,10 +6,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.java.dto.Email;
-import com.java.dto.EmailNew;
 
 @Service
-public class EmailServiceImpl implements EmailService{
+public class EmailServiceV2Impl implements EmailServiceV2{
 
 	@Autowired
 	JavaMailSender gmailSender;
@@ -17,7 +16,7 @@ public class EmailServiceImpl implements EmailService{
 	JavaMailSender outlookSender;
 	
 	@Override
-	public void sendEmail(Email email) {
+	public void sendFromGmail(Email email) {
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
 		mailMessage.setTo(email.getAddress());
 		mailMessage.setSubject(email.getSubject());
@@ -26,18 +25,12 @@ public class EmailServiceImpl implements EmailService{
 	}
 
 	@Override
-	public void sendRoutingEmail(EmailNew email) {
+	public void sendFromOutlook(Email email) {
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
-		mailMessage.setTo(email.getTo());
+		mailMessage.setTo(email.getAddress());
 		mailMessage.setSubject(email.getSubject());
 		mailMessage.setText(email.getContent());
-		if (email.getFrom().equals("outlook")) {
-			outlookSender.send(mailMessage);
-		}
-		else if (email.getFrom().equals("gmail")) {
-			gmailSender.send(mailMessage);
-		}
-			
+		outlookSender.send(mailMessage);
 	}
 
 }

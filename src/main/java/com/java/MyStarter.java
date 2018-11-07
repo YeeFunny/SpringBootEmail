@@ -21,14 +21,32 @@ public class MyStarter {
 		return new RestTemplate();
 	}
 	
-	@Bean("mailUtil")
-	public JavaMailSender getJavaMailSender() {
+	@Bean("gmailSender")
+	public JavaMailSender getGmailSender() {
 	    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 	    mailSender.setHost("smtp.gmail.com");
 	    mailSender.setPort(587);
 	     
 	    mailSender.setUsername("yeefunny.liu@gmail.com");
 	    mailSender.setPassword("Bengbu@1991");
+	     
+	    Properties props = mailSender.getJavaMailProperties();
+	    props.put("mail.transport.protocol", "smtp");
+	    props.put("mail.smtp.auth", "true");
+	    props.put("mail.smtp.starttls.enable", "true");
+	    props.put("mail.debug", "true");
+	     
+	    return mailSender;
+	}
+	
+	@Bean("outlookSender")
+	public JavaMailSender getOutlookSender() {
+	    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+	    mailSender.setHost("smtp-mail.outlook.com");
+	    mailSender.setPort(587);
+	     
+	    mailSender.setUsername("yeefunny@outlook.com");
+	    mailSender.setPassword("AHLYF199111041");
 	     
 	    Properties props = mailSender.getJavaMailProperties();
 	    props.put("mail.transport.protocol", "smtp");
